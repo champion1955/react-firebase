@@ -10,6 +10,10 @@ import SignIn from './components/SignIn.js';
 import Messages from './components/Messages.js';
 import SendMessage from './components/SendMessage.js';
 
+import firebaseConfig from './constants/firebase.js';
+import firebase from 'firebase';
+firebase.initializeApp(firebaseConfig);
+
 const store = createStore(
   rootReducer,
   {},

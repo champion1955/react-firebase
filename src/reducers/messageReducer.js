@@ -1,12 +1,17 @@
-const MESSAGES=[
-  {key: '1', userName: 'Ted', text: 'hello world', timeStamp: Date.now()},
-  {key: '2', userName: 'Maria', text: 'Why would you?', timeStamp: Date.now() - 10000},
-  {key: '3', userName: 'Liam', text: 'Wooooo', timeStamp: Date.now() - 15000, isMe: true},
-  {key: '4', userName: 'Mark', text: 'Hello Universe...', timeStamp: Date.now() - 20000}
-];
-
 let i = 4;
-export default function messageReducer(state=MESSAGES, action){
+
+function messagesToArray(messageObj, userName){
+  if(messageObj == null){
+    return [];
+  }
+  var keys = Object.keys(messageObj);
+  return keys.map((key) => {
+    var obj = messageObj[key];
+    return Object.assign({key}, obj, {isMe: obj.userName == userName});
+  });
+}
+
+export default function messageReducer(state=[], action){
   switch (action.type) {
     case 'SEND_MESSAGE':
       return [...state, {
@@ -18,5 +23,8 @@ export default function messageReducer(state=MESSAGES, action){
       }];
     default:
       return state;
+
+    case 'RECEIVE_MESSAGES':
+      return messagesToArray(action.messages, action.userName);
   }
 }
